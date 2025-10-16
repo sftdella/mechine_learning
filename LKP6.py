@@ -1,4 +1,4 @@
-# Langkah 1 - Muat Data
+# Langkah 1 - Muat data
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
@@ -6,12 +6,10 @@ df = pd.read_csv("processed_kelulusan.csv")
 X = df.drop("Lulus", axis=1)
 y = df["Lulus"]
 
-# Langkah 1: Split 60% Train, 40% Temp (ubah test_size=0.40)
+# split: 70/15/15
 X_train, X_temp, y_train, y_temp = train_test_split(
-    X, y, test_size=0.40, stratify=y, random_state=42
+    X, y, test_size=0.30, stratify=y, random_state=42
 )
-
-# Langkah 2: Split 50% Val, 50% Test dari data Temp (40% data asli -> 20%/20%)
 X_val, X_test, y_val, y_test = train_test_split(
     X_temp, y_temp, test_size=0.50, stratify=y_temp, random_state=42
 )
@@ -94,7 +92,7 @@ if hasattr(final_model, "predict_proba"):
     plt.figure(); plt.plot(rec, prec); plt.xlabel("Recall"); plt.ylabel("Precision"); plt.title("PR Curve (test)")
     plt.tight_layout(); plt.savefig("pr_test.png", dpi=120)
 
-#  Langkah 6 - Pentingnya Fitur
+# Langkah 6 - Pentingnya Fitur
 # 6a) Feature importance native (gini)
 try:
     import numpy as np
@@ -111,7 +109,6 @@ except Exception as e:
 # from sklearn.inspection import permutation_importance
 # r = permutation_importance(final_model, X_val, y_val, n_repeats=10, random_state=42, n_jobs=-1)
 # ... (urutkan dan laporkan)
-
 
 # Langkah 7 - Simpan Model
 import joblib
